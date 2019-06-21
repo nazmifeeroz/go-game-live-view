@@ -1,4 +1,5 @@
-defmodule HayagoWeb do
+defmodule HayagoWeb.GameLive do
+  alias Hayago.State
   use Phoenix.LiveView
 
   def render (assigns) do
@@ -7,5 +8,10 @@ defmodule HayagoWeb do
 
   def mount(_session, socket) do
     {:ok, assign(socket,state: %Hayago.State{})}
+  end
+
+  def handle_event("place", index, %{assigns: assigns} = socket) do
+    new_state = State.place(assigns.state, String.to_integer(index))
+    {:noreply, assign(socket, state: new_state)}
   end
 end
